@@ -1,4 +1,4 @@
-# Homelab Service Template
+# Homelab Service Helm Chart
 ## Intent
 - this repo contains a generic helm chart use to deploy services in my homelab
 
