@@ -1,0 +1,51 @@
+{{- if and .Values.cron .Values.cron.enabled }}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ .Values.name }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.name }}
+spec:
+  schedule: "{{ .Values.cron.schedule }}"
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: {{ .Values.name }}
+        spec:
+          containers:
+            - name: {{ .Values.name }}
+              image: {{ .Values.image.registryHost }}/{{ .Values.image.name }}:{{ .Values.image.version }}
+              {{- if .Values.config.enabled }}
+              envFrom:
+                - configMapRef:
+                    name: {{ .Values.name }}
+              {{- end }}
+              {{- if .Values.secrets }}
+              env:
+                {{- range .Values.secrets }}
+                - name: {{ .envVar }}
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ .name }}
+                      key: {{ .key }}
+                {{- end }}
+              volumeMounts:
+                {{- range .Values.secrets }}
+                - name: {{ .name }}-{{ .key }}-volume
+                  mountPath: /mnt/{{ .name }}/{{ .key }}
+                  readOnly: true
+                {{- end }}
+              {{- end }}
+          {{- if .Values.secrets }}
+          volumes:
+            {{- range .Values.secrets }}
+            - name: {{ .name }}-{{ .key }}-volume
+              secret:
+                secretName: {{ .name }}
+            {{- end }}
+          {{- end }}
+          restartPolicy: {{ .Values.cron.restartPolicy }}
+{{- end }}

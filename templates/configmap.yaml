@@ -1,7 +1,9 @@
+{{- if and .Values.config .Values.config.enabled -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: {{ .Values.name }}
   namespace: {{ .Values.namespace }}
 data:
-{{ .Values.config | indent 2 }}
+{{ .Values.config.data | indent 2 }}
+{{- end }}
