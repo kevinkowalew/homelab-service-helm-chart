@@ -1,4 +1,4 @@
-{{- if and .Values.cron .Values.cron.enabled }}
+{{- if and .Values.cron .Values.cron.schedule }}
 apiVersion: batch/v1
 kind: CronJob
 metadata:
@@ -18,7 +18,7 @@ spec:
           containers:
             - name: {{ .Values.name }}
               image: {{ .Values.image.registryHost }}/{{ .Values.image.name }}:{{ .Values.image.version }}
-              {{- if .Values.config.enabled }}
+              {{- if .Values.config }}
               envFrom:
                 - configMapRef:
                     name: {{ .Values.name }}
@@ -47,5 +47,9 @@ spec:
                 secretName: {{ .name }}
             {{- end }}
           {{- end }}
+          {{- if .Values.cron.restartPolicy }}
           restartPolicy: {{ .Values.cron.restartPolicy }}
+          {{- else }}
+          restartPolicy: Never
+          {{- end }}
 {{- end }}
