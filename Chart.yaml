@@ -1,5 +1,5 @@
 apiVersion: v2
-name: homelab-service-template
+name: homelab-service-helm-chart
 description: A template chart for deploying homegrown homelab services
 type: application
 version: 0.1.0
