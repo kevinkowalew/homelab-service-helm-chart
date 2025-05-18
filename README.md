@@ -3,7 +3,7 @@
 - this repo contains a generic helm chart use to deploy services in my homelab
 
 ## `values.yaml` deinfitions
-| Chart Value         | Description                                          | Default values |
+| Chart Value         | Description                                          | Default value |
 |---------------------|------------------------------------------------------|----------------|
 | name                | name of your application                             |                |
 | namespace           | K8s namespace you wish to deploy your application to |                |
