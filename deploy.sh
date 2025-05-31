@@ -3,5 +3,5 @@ files=( $(ls $dir) )
 
 for file in "${files[@]}"; do
   deploy=$(echo $file | cut -d"." -f1)  
-  helm upgrade --install $deploy . --values=$dir/$file
+  helm upgrade --install -n prod $deploy . --values=$dir/$file
 done
