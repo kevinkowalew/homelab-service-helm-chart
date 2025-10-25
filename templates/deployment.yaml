@@ -16,6 +16,9 @@ spec:
       labels:
         app: {{ .Values.name }}
     spec:
+      {{- if .Values.deployment.serviceAccountName }}
+      serviceAccountName: {{ .Values.deployment.serviceAccountName }}
+      {{- end }}
       containers:
         - name: {{ .Values.name }}
           image: {{ .Values.image.registryHost }}/{{ .Values.image.name }}:{{ .Values.image.version }}
