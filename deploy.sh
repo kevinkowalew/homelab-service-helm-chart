@@ -11,7 +11,6 @@ elif [ $# -lt 2 ]; then
 	  path="${dir}/${!i}.yaml"
 	  if [ -e $path ]; then
 		  helm upgrade --install -n prod ${!i} . --values=$path
-		  echo $path
 	  fi
 	done
 fi
